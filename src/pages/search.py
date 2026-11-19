@@ -50,7 +50,10 @@ def search_page(page: ft.Page,co_ordinates) -> ft.View:
             color = ft.Colors.BLACK
         ),
         bgcolor = ft.Colors.WHITE,
-        border_radius=30,
+
+        border=ft.OutlineInputBorder(
+            border_radius=30
+        ),
         helper_style=ft.TextStyle(
             color=ft.Colors.RED,
             size=15
