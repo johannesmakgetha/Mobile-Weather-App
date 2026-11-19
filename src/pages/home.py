@@ -506,7 +506,7 @@ def home_page(page: ft.Page,co_ordinate) -> ft.View:
         
     
     bottom_bar = ft.BottomAppBar(
-        border_radius= ft.BorderRadius.all(20),
+        shape=ft.NotchShape.CIRCULAR,
         bgcolor=ft.Colors.BLUE,
         content=ft.Row(
             controls=[
@@ -546,6 +546,8 @@ def home_page(page: ft.Page,co_ordinate) -> ft.View:
     
     main_layout = ft.Container(
         expand=True,
+        padding= 0,
+        margin= 0,
         gradient= ft.LinearGradient(
                     begin=ft.Alignment.TOP_LEFT,
                     end = ft.Alignment.BOTTOM_RIGHT,
@@ -554,28 +556,34 @@ def home_page(page: ft.Page,co_ordinate) -> ft.View:
                 "#769DEB",
                 "#A27EE3",
             ]
-                ),
-        padding=20,
-        content=ft.Column(
-            expand = True,
-            scroll=ft.ScrollMode.AUTO,
-            on_scroll= handle_scroll,
-            controls=[
-                top,
-                ft.Text("Weather now", size=30,color=ft.Colors.WHITE,weight=ft.FontWeight.BOLD),
-                top_body,
-                ft.Text("Hour forecast", size=30,color=ft.Colors.WHITE,weight=ft.FontWeight.BOLD),
-                body_hour,
-                ft.Text("Day forecast", size=30,color=ft.Colors.WHITE,weight=ft.FontWeight.BOLD),
-                body_day,
-                
-            ]
+        ),
+        content=ft.SafeArea(
+            avoid_intrusions_left=False,
+            avoid_intrusions_right=False,
+            avoid_intrusions_bottom=False,
+            expand=True,
+            content=ft.Column(
+                expand = True,
+                scroll=ft.ScrollMode.AUTO,
+                on_scroll= handle_scroll,
+                controls=[
+                    top,
+                    ft.Text("Weather now", size=30,color=ft.Colors.WHITE,weight=ft.FontWeight.BOLD),
+                    top_body,
+                    ft.Text("Hour forecast", size=30,color=ft.Colors.WHITE,weight=ft.FontWeight.BOLD),
+                    body_hour,
+                    ft.Text("Day forecast", size=30,color=ft.Colors.WHITE,weight=ft.FontWeight.BOLD),
+                    body_day,
+                    
+                ]
+            )
         )
-
-
     )
     return ft.View(
         bottom_appbar=bottom_bar,
+        padding=0,
+        margin=0,
+        bgcolor=ft.Colors.TRANSPARENT,
         route="/",
         controls = [
             main_layout
