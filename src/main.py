@@ -1,25 +1,31 @@
 import flet as ft
+from pages.home import home_page
+from pages.search import search_page
 
+
+
+co_ordinates = {
+    "selected_lat": None,
+    "selected_lon": None
+}
 
 def main(page: ft.Page):
-    counter = ft.Text("0", size=50, data=0)
 
-    def increment_click(e: ft.Event[ft.FloatingActionButton]):
-        counter.data += 1
-        counter.value = str(counter.data)
+    def route_change():
+        page.views.clear()
 
-    page.floating_action_button = ft.FloatingActionButton(
-        icon=ft.Icons.ADD, key="increment", on_click=increment_click
-    )
-    page.add(
-        ft.SafeArea(
-            expand=True,
-            content=ft.Container(
-                content=counter,
-                alignment=ft.Alignment.CENTER,
-            ),
-        )
-    )
+        if page.route == "/":
+            page.views.append(home_page(page,co_ordinates))
+        elif page.route == "/home":
+            page.views.append(home_page(page,co_ordinates))
+        elif page.route == "/search":
+            page.views.append(search_page(page,co_ordinates))
+
+        page.update()
+
+    page.on_route_change = route_change
+    route_change()
+    # page.add(home_page(page))
 
 
 if __name__ == "__main__":
