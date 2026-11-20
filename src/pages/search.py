@@ -1,9 +1,11 @@
 import flet as ft
 import httpx
+import json
+
 
 CITY_URL = "http://127.0.0.1:8000/city"
 
-def search_page(page: ft.Page,co_ordinates) -> ft.View:
+def search_page(page: ft.Page,prefs) -> ft.View:
     
     
     async def go_to_settings(e):
@@ -66,10 +68,22 @@ def search_page(page: ft.Page,co_ordinates) -> ft.View:
         scroll=ft.ScrollMode.AUTO
     )
 
-    async def select_city(lat,lon):
+    async def select_city(city_name,lat,lon,state,country):
 
-        co_ordinates["selected_lat"] = lat
-        co_ordinates["selected_lon"] = lon
+
+        location = {
+            "city": city_name,
+            "latitude": lat,
+            "longitude": lon,
+            "state": state,
+            "country": country
+        }
+
+        location_json = json.dumps(location)
+
+        await prefs.set(
+            "default_location",location_json
+        )
 
         await page.push_route("/home")
 
@@ -87,7 +101,7 @@ def search_page(page: ft.Page,co_ordinates) -> ft.View:
                     border=ft.Border.only(bottom=ft.BorderSide(2,ft.Colors.with_opacity(0.3,ft.Colors.GREY_100))),
                     bgcolor=ft.Colors.GREY_800,
                     padding=ft.Padding(0,5,5,10),
-                    on_click= lambda e: page.run_task(select_city,lat,lon),
+                    on_click= lambda e: page.run_task(select_city,city_name,lat,lon,state,country),
                     content = ft.Row(
                         controls=[
                             ft.Column(
