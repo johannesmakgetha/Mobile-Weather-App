@@ -1,14 +1,28 @@
 import flet as ft
 import httpx
-
+import json
 
 
 LATLON_URL = "http://127.0.0.1:8000/weather"
 
-def home_page(page: ft.Page,co_ordinate) -> ft.View:
+def home_page(page: ft.Page,prefs) -> ft.View:
 
     async def go_search(e):
         await page.push_route("/search")
+
+    async def load_saved_location():
+        location_json = await prefs.get("default_location")
+
+        if location_json:
+            location = json.loads(location_json)
+
+            lat = location["latitude"]
+            lon = location["longitude"]
+
+            await search_weather(lat,lon)
+
+        else:
+            await page.push_route("/search")
 
     loading_dialog = ft.AlertDialog(
         modal=True,
@@ -64,12 +78,7 @@ def home_page(page: ft.Page,co_ordinate) -> ft.View:
 
     
     top = ft.Container(
-        gradient = ft.LinearGradient(
-                begin = ft.Alignment.BOTTOM_LEFT,
-                end = ft.Alignment.TOP_LEFT,
-                colors = [ft.Colors.LIGHT_BLUE_600,ft.Colors.LIGHT_BLUE_900]
-                ),
-    
+        bgcolor=ft.Colors.LIGHT_BLUE_600,
         border_radius=30,
         animate=ft.Animation(duration=350,curve=ft.AnimationCurve.DECELERATE),
         padding=15,
@@ -202,14 +211,7 @@ def home_page(page: ft.Page,co_ordinate) -> ft.View:
     top_body = ft.Container(
         padding = 10,
         border_radius=10,
-        gradient=ft.LinearGradient(
-            begin=ft.Alignment(-0.707, -0.707),
-            end=ft.Alignment(0.707, 0.707),
-            colors=[
-                ft.Colors.with_opacity(1, "#EDF8F6"),
-                ft.Colors.with_opacity(1, "#EDF1FB"),
-            ],
-        ),
+        bgcolor=ft.Colors.LIGHT_BLUE_600,
         content=ft.Column(
             alignment=ft.MainAxisAlignment.SPACE_EVENLY,
             controls=[
@@ -340,24 +342,6 @@ def home_page(page: ft.Page,co_ordinate) -> ft.View:
 
                             ),
 
-                            # ft.Text(
-                            #     value=f"{min_temp}°",
-                            #     size=15,
-                            #     color=ft.Colors.BLACK,
-                            #     weight=ft.FontWeight.BOLD
-                            # ),
-                            # ft.Text(
-                            #     value="|",
-                            #     size=15,
-                            #     color=ft.Colors.BLACK,
-                            #     weight=ft.FontWeight.BOLD
-                            # ),
-                            # ft.Text(
-                            #     value=f"{max_temp}°",
-                            #     size=15,
-                            #     color=ft.Colors.BLACK,
-                            #     weight=ft.FontWeight.BOLD
-                            # ),
                             
                         ],
                         vertical_alignment=ft.CrossAxisAlignment.CENTER,
@@ -370,39 +354,21 @@ def home_page(page: ft.Page,co_ordinate) -> ft.View:
         expand=True,
         padding = 10,
         border_radius=10,
-        gradient=ft.LinearGradient(
-            begin=ft.Alignment(-0.707, -0.707),
-            end=ft.Alignment(0.707, 0.707),
-            colors=[
-                ft.Colors.with_opacity(1, "#EDF8F6"),
-                ft.Colors.with_opacity(1, "#EDF1FB"),
-                ],
-        ),
-
+        bgcolor=ft.Colors.LIGHT_BLUE_600,
         content = hourly_row
     )
 
     body_day = ft.Container(
             padding = 10,
             border_radius=10,
-            gradient=ft.LinearGradient(
-                begin=ft.Alignment(-0.707, -0.707),
-                end=ft.Alignment(0.707, 0.707),
-                colors=[
-                    ft.Colors.with_opacity(1, "#EDF8F6"),
-                    ft.Colors.with_opacity(1, "#EDF1FB"),
-                    ],
-            ),
+            bgcolor=ft.Colors.LIGHT_BLUE_600,
             content = daily_column
             
         )
 
     
-    lat = co_ordinate["selected_lat"]
-    lon = co_ordinate["selected_lon"]
-  
 
-    async def search_weather():
+    async def search_weather(lat,lon):
         page.show_dialog(loading_dialog)
         try:
             async with httpx.AsyncClient() as client:
@@ -506,9 +472,12 @@ def home_page(page: ft.Page,co_ordinate) -> ft.View:
         
     
     bottom_bar = ft.BottomAppBar(
-        shape=ft.NotchShape.CIRCULAR,
-        bgcolor=ft.Colors.BLUE,
+        padding=ft.Padding.symmetric(horizontal=12, vertical=0),
+        bgcolor = ft.Colors.LIGHT_BLUE_600,
+        height=100,
         content=ft.Row(
+            alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+            vertical_alignment=ft.CrossAxisAlignment.START,
             controls=[
                 ft.IconButton(icon=ft.Icons.MENU_OPEN, icon_color=ft.Colors.WHITE,on_click=go_search),
                 ft.Container(expand=True),
@@ -542,7 +511,7 @@ def home_page(page: ft.Page,co_ordinate) -> ft.View:
         page.update()
 
     
-    page.run_task(search_weather)
+    page.run_task(load_saved_location)
     
     main_layout = ft.Container(
         expand=True,
@@ -553,14 +522,13 @@ def home_page(page: ft.Page,co_ordinate) -> ft.View:
                     end = ft.Alignment.BOTTOM_RIGHT,
                     colors=[
                 "#6988DC",
-                "#769DEB",
-                "#A27EE3",
+                ft.Colors.LIGHT_BLUE_600
+               
             ]
         ),
         content=ft.SafeArea(
             avoid_intrusions_left=False,
             avoid_intrusions_right=False,
-            avoid_intrusions_bottom=False,
             expand=True,
             content=ft.Column(
                 expand = True,
