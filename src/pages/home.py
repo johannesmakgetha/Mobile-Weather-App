@@ -54,7 +54,7 @@ def home_page(page: ft.Page,prefs) -> ft.View:
 
     daily_column = ft.Column(
         alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
-        spacing=0,
+        spacing=5,
         scroll=ft.ScrollMode.AUTO
     )
 
@@ -536,7 +536,6 @@ def home_page(page: ft.Page,prefs) -> ft.View:
                 on_scroll= handle_scroll,
                 controls=[
                     top,
-                    ft.Text("Weather now", size=30,color=ft.Colors.WHITE,weight=ft.FontWeight.BOLD),
                     top_body,
                     ft.Text("Hour forecast", size=30,color=ft.Colors.WHITE,weight=ft.FontWeight.BOLD),
                     body_hour,
