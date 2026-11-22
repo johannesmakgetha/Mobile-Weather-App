@@ -295,7 +295,7 @@ def home_page(page: ft.Page,prefs) -> ft.View:
                     border_radius=10,
                     padding = 10,
                     content = ft.Row(
-                        alignment=ft.MainAxisAlignment.SPACE_EVENLY,
+                        alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
                         controls=[
                             ft.Text(
                                 days,
@@ -303,45 +303,48 @@ def home_page(page: ft.Page,prefs) -> ft.View:
                                 color=ft.Colors.GREY_800
                             ),
                             ft.Row(
-                                spacing=0,
-                                controls=[
-                                ft.Icon(
-                                    icon=ft.Icons.WATER_DROP,
+                                controls = [
+                                    ft.Row(
+                                        spacing=0,
+                                        controls=[
+                                            ft.Icon(
+                                                icon=ft.Icons.WATER_DROP,
+                                                ),
+                                            ft.Text(
+                                                value=f"{rain}%",
+                                                color=ft.Colors.BLACK,
+                                                weight=ft.FontWeight.BOLD
+                                                ),
+                                        ]
                                     ),
-                                ft.Text(
-                                    value=f"{rain}%",
-                                    color=ft.Colors.BLACK,
-                                    weight=ft.FontWeight.BOLD
-                                    ),
-                                ]
-                            ),
-                            icon,
-                            ft.Row(
-                                spacing=0,
-                                alignment=ft.MainAxisAlignment.CENTER,
-                                controls=[
-                                    ft.Text(
-                                        value=f"{min_temp}°",
-                                        size=15,
-                                        color=ft.Colors.BLACK,
-                                        weight=ft.FontWeight.BOLD
-                                    ),
-                                    ft.Text(
-                                        value="|",
-                                        size=15,
-                                        color=ft.Colors.BLACK,
-                                        weight=ft.FontWeight.BOLD
-                                    ),
-                                    ft.Text(
-                                        value=f"{max_temp}°",
-                                        size=15,
-                                        color=ft.Colors.BLACK,
-                                        weight=ft.FontWeight.BOLD
-                                    ),
-                                ]
+                                    icon,
+                                    ft.Row(
+                                        spacing=0,
+                                        alignment=ft.MainAxisAlignment.CENTER,
+                                        controls=[
+                                            ft.Text(
+                                                value=f"{min_temp}°",
+                                                size=15,
+                                                color=ft.Colors.BLACK,
+                                                weight=ft.FontWeight.BOLD
+                                            ),
+                                            ft.Text(
+                                                value="|",
+                                                size=15,
+                                                color=ft.Colors.BLACK,
+                                                weight=ft.FontWeight.BOLD
+                                            ),
+                                            ft.Text(
+                                                value=f"{max_temp}°",
+                                                size=15,
+                                                color=ft.Colors.BLACK,
+                                                weight=ft.FontWeight.BOLD
+                                            ),
+                                        ]
 
-                            ),
-
+                                    ),
+                                    ]
+                            )
                             
                         ],
                         vertical_alignment=ft.CrossAxisAlignment.CENTER,
