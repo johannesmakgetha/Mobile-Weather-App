@@ -26,12 +26,17 @@ def home_page(page: ft.Page,prefs) -> ft.View:
 
     loading_dialog = ft.AlertDialog(
         modal=True,
+        content_padding=10,
         content=ft.Column(
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+            alignment=ft.MainAxisAlignment.CENTER,
             tight=True,
-            spacing=20,
+            spacing=0,
             controls=[
-                ft.ProgressRing()
+                ft.ProgressRing(
+                    width=40,
+                    height=40
+                )
             ]
         )
     )
@@ -243,7 +248,7 @@ def home_page(page: ft.Page,prefs) -> ft.View:
         return ft.Container(
                     width=90,
                     height=160,
-                    bgcolor=ft.Colors.WHITE,
+                    bgcolor="#15233D",
                     border_radius=10,
                     padding = ft.Padding(15,15,15,35),
                     content = ft.Column(
@@ -253,13 +258,13 @@ def home_page(page: ft.Page,prefs) -> ft.View:
                             ft.Text(
                                 time,
                                 size=15,
-                                color=ft.Colors.GREY_800
+                                color=ft.Colors.WHITE
                             ),
                             icon,
                             ft.Text(
                                 value=f"{temp}°C",
                                 size=18,
-                                color=ft.Colors.BLACK,
+                                color=ft.Colors.WHITE,
                                 weight=ft.FontWeight.BOLD
                             ),
                             ft.Row(
@@ -267,12 +272,13 @@ def home_page(page: ft.Page,prefs) -> ft.View:
                                 controls=[
                                     ft.Icon(
                                         icon=ft.Icons.WATER_DROP,
-                                        size=15
+                                        size=10,
+                                        color=ft.Colors.WHITE
 
                                     ),
                                     ft.Text(
                                         value=f"{rain}%",
-                                        color=ft.Colors.BLACK,
+                                        color=ft.Colors.WHITE,
                                         weight=ft.FontWeight.BOLD,
                                         size=15
 
@@ -291,7 +297,7 @@ def home_page(page: ft.Page,prefs) -> ft.View:
         return ft.Container(
                     border=ft.Border.all(1,ft.Colors.with_opacity(0.3,ft.Colors.GREY_800)),
                     height=80,
-                    bgcolor=ft.Colors.WHITE,
+                    bgcolor="#15233D",
                     border_radius=10,
                     padding = 10,
                     content = ft.Row(
@@ -300,19 +306,22 @@ def home_page(page: ft.Page,prefs) -> ft.View:
                             ft.Text(
                                 days,
                                 size=15,
-                                color=ft.Colors.GREY_800
+                                color=ft.Colors.WHITE
                             ),
                             ft.Row(
+                                alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
                                 controls = [
                                     ft.Row(
                                         spacing=0,
                                         controls=[
                                             ft.Icon(
                                                 icon=ft.Icons.WATER_DROP,
+                                                color=ft.Colors.WHITE,
+                                                size=10
                                                 ),
                                             ft.Text(
                                                 value=f"{rain}%",
-                                                color=ft.Colors.BLACK,
+                                                color=ft.Colors.WHITE,
                                                 weight=ft.FontWeight.BOLD
                                                 ),
                                         ]
@@ -325,19 +334,19 @@ def home_page(page: ft.Page,prefs) -> ft.View:
                                             ft.Text(
                                                 value=f"{min_temp}°",
                                                 size=15,
-                                                color=ft.Colors.BLACK,
+                                                color=ft.Colors.WHITE,
                                                 weight=ft.FontWeight.BOLD
                                             ),
                                             ft.Text(
                                                 value="|",
                                                 size=15,
-                                                color=ft.Colors.BLACK,
+                                                color=ft.Colors.WHITE,
                                                 weight=ft.FontWeight.BOLD
                                             ),
                                             ft.Text(
                                                 value=f"{max_temp}°",
                                                 size=15,
-                                                color=ft.Colors.BLACK,
+                                                color=ft.Colors.WHITE,
                                                 weight=ft.FontWeight.BOLD
                                             ),
                                         ]
@@ -540,9 +549,9 @@ def home_page(page: ft.Page,prefs) -> ft.View:
                 controls=[
                     top,
                     top_body,
-                    ft.Text("Hour forecast", size=30,color=ft.Colors.WHITE,weight=ft.FontWeight.BOLD),
+                    ft.Text("3-Hour Forecast", size=20,weight=ft.FontWeight.BOLD),
                     body_hour,
-                    ft.Text("Day forecast", size=30,color=ft.Colors.WHITE,weight=ft.FontWeight.BOLD),
+                    ft.Text("Daily Forecast", size=20,weight=ft.FontWeight.BOLD),
                     body_day,
                     
                 ]
