@@ -496,7 +496,7 @@ def home_page(page: ft.Page,prefs) -> ft.View:
             controls=[
                 ft.IconButton(icon=ft.Icons.SEARCH, icon_color=ft.Colors.WHITE,on_click=go_search),
                 ft.Container(expand=True),
-                ft.IconButton(icon=ft.Icons.MENU_BOOK_OUTLINED, icon_color=ft.Colors.WHITE,on_click=go_about)
+                ft.IconButton(icon=ft.Icons.MENU, icon_color=ft.Colors.WHITE,on_click=go_about)
             ]
         )
     )
