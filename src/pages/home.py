@@ -9,6 +9,9 @@ def home_page(page: ft.Page,prefs) -> ft.View:
 
     async def go_search(e):
         await page.push_route("/search")
+    
+    async def go_about(e):
+        await page.push_route("/about")
 
     async def load_saved_location():
         location_json = await prefs.get("default_location")
@@ -491,9 +494,9 @@ def home_page(page: ft.Page,prefs) -> ft.View:
             alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
             vertical_alignment=ft.CrossAxisAlignment.START,
             controls=[
-                ft.IconButton(icon=ft.Icons.MENU_OPEN, icon_color=ft.Colors.WHITE,on_click=go_search),
+                ft.IconButton(icon=ft.Icons.SEARCH, icon_color=ft.Colors.WHITE,on_click=go_search),
                 ft.Container(expand=True),
-                ft.IconButton(icon=ft.Icons.SEARCH, icon_color=ft.Colors.WHITE)
+                ft.IconButton(icon=ft.Icons.MENU_BOOK_OUTLINED, icon_color=ft.Colors.WHITE,on_click=go_about)
             ]
         )
     )
