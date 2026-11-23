@@ -191,7 +191,7 @@ def about_page(page: ft.Page) -> ft.View:
     alignment=ft.Alignment.CENTER,
     padding=ft.Padding(10, 20, 10, 10),
     content=ft.Text(
-        "Rank'ng • Version 1.0.0",
+        "Ski-cast • Version 1.0.0",
         size=12,
         color="#8A949E",
         text_align=ft.TextAlign.CENTER,
