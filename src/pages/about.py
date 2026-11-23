@@ -63,9 +63,9 @@ def about_page(page: ft.Page) -> ft.View:
         on_click=lambda e: open_info_dialog(
         page,
         "Weather Disclaimer",
-        "Weather forecasts are estimates based on available weather data.\n"
-        "Actual weather conditions may differ"
-        "Do not rely solely on this application for emergency alerts or"
+        "Weather forecasts are estimates based on available weather data.\n\n"
+        "Actual weather conditions may differ.\n\n"
+        "Do not rely solely on this application for emergency alerts or "
         "safety-critical decisions."
         ),
         content=ft.Row(
@@ -85,7 +85,7 @@ def about_page(page: ft.Page) -> ft.View:
                             weight=ft.FontWeight.BOLD,
                         ),
                         ft.Text(
-                            "View or edit your username",
+                            "Forecasts are estimates and may change",
                             color="#aaaaaa",
                             size=12,
                         ),
@@ -107,8 +107,8 @@ def about_page(page: ft.Page) -> ft.View:
     on_click=lambda e: open_info_dialog(
         page,
         "Contanct & Support",
-        "Have a question, suggestion or encountered a problem?\n"
-        "We'd love to hear from you.\n"
+        "Have a question, suggestion or encountered a problem?\n\n"
+        "We'd love to hear from you.\n\n"
         "makgethamj@gmail.com ",
     ),
     content=ft.Row(
@@ -152,7 +152,7 @@ def about_page(page: ft.Page) -> ft.View:
     page,
     "Privacy & Data",
     "Your privacy matters.\n\n"
-    "Your saved locations are stored locally on your device "
+    "Your saved locations are stored locally on your device. "
     "They are used to remember your preferred locations "
     "and provide weather information.\n\n"
     "Your location preferences are not shared with other users. ",
