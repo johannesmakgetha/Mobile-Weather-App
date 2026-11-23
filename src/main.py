@@ -1,6 +1,7 @@
 import flet as ft
 from pages.home import home_page
 from pages.search import search_page
+from pages.about import about_page
 
 
 
@@ -41,6 +42,8 @@ def main(page: ft.Page):
             page.views.append(home_page(page,prefs))
         elif page.route == "/search":
             page.views.append(search_page(page,prefs))
+        elif page.route == "/about":
+            page.views.append(about_page(page))
 
         page.update()
 
