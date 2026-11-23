@@ -28,29 +28,6 @@ def about_page(page: ft.Page) -> ft.View:
             )
     
 
-    def open_username_dialog(page):
-        username_field = ft.Text("Feature currently not available",color="#ffffff")
-
-        dialog = ft.AlertDialog(
-            title=ft.Text(
-                "Edit Username",
-                color="#ffffff",
-            ),
-            content=username_field,
-            bgcolor="#111820",
-            shape=ft.RoundedRectangleBorder(radius=16),
-            actions=[
-                ft.TextButton(
-                    "Cancel",
-                    on_click=lambda e: page.pop_dialog(),
-                ),
-                
-            ],
-        )
-
-        page.show_dialog(dialog)
-
-
     def open_info_dialog(page, title, message):
         dialog = ft.AlertDialog(
             
