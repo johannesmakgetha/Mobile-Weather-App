@@ -1,6 +1,7 @@
 import flet as ft
 import httpx
 import json
+from datetime import datetime
 
 
 LATLON_URL = "https://weather-api-4xxh.onrender.com/weather"
@@ -67,6 +68,7 @@ def home_page(page: ft.Page,prefs,user_id) -> ft.View:
         spacing=5,
         scroll=ft.ScrollMode.AUTO
     )
+
 
     def weather_icon(icon_code: str,size: int= 100):
         if icon_code:
@@ -297,6 +299,33 @@ def home_page(page: ft.Page,prefs,user_id) -> ft.View:
                     
                 )
 
+
+
+    def lastupdate_container(date, time):
+        return ft.Container(
+            margin=20,
+            border=ft.Border.all(
+                1,
+                ft.Colors.with_opacity(0.3, ft.Colors.GREY_800)
+            ),
+            height=40,
+            bgcolor="#15233D",
+            border_radius=10,
+            padding=10,
+            content=ft.Row(
+                alignment=ft.MainAxisAlignment.END,
+                controls=[
+                    ft.Text(
+                        f"Updated: {date}, {time}",
+                        size=15,
+                        color=ft.Colors.WHITE
+                    )
+                ]
+            )
+        )
+
+
+
     
     def day_forecast_container(days,icon,min_temp,max_temp,rain):
         return ft.Container(
@@ -384,6 +413,9 @@ def home_page(page: ft.Page,prefs,user_id) -> ft.View:
         )
 
     
+
+
+    updated_container = lastupdate_container("--", "--")
 
     async def search_weather(lat,lon):
         page.show_dialog(loading_dialog)
@@ -479,6 +511,13 @@ def home_page(page: ft.Page,prefs,user_id) -> ft.View:
                 # Day
 
                 daily_column.controls = ffd
+
+                now = datetime.now()
+
+                date = now.strftime("%d-%m-%Y")
+                time = now.strftime("%H:%M")
+
+                updated_container.content = lastupdate_container(date, time).content
                 
     
         except httpx.HTTPError as e:
@@ -559,6 +598,7 @@ def home_page(page: ft.Page,prefs,user_id) -> ft.View:
                     body_hour,
                     ft.Text("Daily Forecast", size=20,weight=ft.FontWeight.BOLD),
                     body_day,
+                    updated_container
                     
                 ]
             )
