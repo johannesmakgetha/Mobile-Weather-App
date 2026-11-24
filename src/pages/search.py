@@ -3,9 +3,9 @@ import httpx
 import json
 
 
-CITY_URL = "http://127.0.0.1:8000/city"
+CITY_URL = "https://weather-api-4xxh.onrender.com/city"
 
-def search_page(page: ft.Page,prefs) -> ft.View:
+def search_page(page: ft.Page,prefs,user_id) -> ft.View:
     
     
     async def go_to_settings(e):
@@ -162,7 +162,8 @@ def search_page(page: ft.Page,prefs) -> ft.View:
                     url=CITY_URL,
                     params={
                         "city_name":city_name.value,
-                    }    
+                    },
+                    headers={"X-Anonymous-ID": user_id}    
                 )
                 
                 response.raise_for_status()
