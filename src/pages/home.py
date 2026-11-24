@@ -30,6 +30,7 @@ def home_page(page: ft.Page,prefs) -> ft.View:
     loading_dialog = ft.AlertDialog(
         modal=True,
         content_padding=10,
+        bgcolor=ft.Colors.BLACK,
         content=ft.Column(
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
             alignment=ft.MainAxisAlignment.CENTER,
@@ -37,6 +38,7 @@ def home_page(page: ft.Page,prefs) -> ft.View:
             spacing=0,
             controls=[
                 ft.ProgressRing(
+                    bgcolor=ft.Colors.WHITE,
                     width=40,
                     height=40
                 )
