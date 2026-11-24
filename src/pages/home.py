@@ -3,9 +3,9 @@ import httpx
 import json
 
 
-LATLON_URL = "http://127.0.0.1:8000/weather"
+LATLON_URL = "https://weather-api-4xxh.onrender.com/weather"
 
-def home_page(page: ft.Page,prefs) -> ft.View:
+def home_page(page: ft.Page,prefs,user_id) -> ft.View:
 
     async def go_search(e):
         await page.push_route("/search")
@@ -394,7 +394,8 @@ def home_page(page: ft.Page,prefs) -> ft.View:
                     params={
                         "lat":lat,
                         "lon":lon
-                    }    
+                    },
+                    headers={"X-Anonymous-ID": user_id}   
                 )
                 response.raise_for_status()
                 data = response.json()
