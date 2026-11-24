@@ -221,6 +221,17 @@ def search_page(page: ft.Page,prefs) -> ft.View:
                     padding = 15,
                     content=ft.Column(
                         controls=[
+                            ft.Row(
+                                alignment = ft.MainAxisAlignment.CENTER,
+                                controls = [
+                                    ft.Text(
+                                        "Enter a location name",
+                                        color = ft.Colors.WHITE,
+                                        size = 20,
+                                        weight = ft.FontWeight.BOLD
+                                    )
+                                ]
+                            ),
                             city_name,
                             error_message,
                             ft.Row(
