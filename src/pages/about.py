@@ -40,7 +40,7 @@ def about_page(page: ft.Page) -> ft.View:
                 width=350,
                 content=ft.Text(
                     message,
-                    color="#cccccc",
+                    color="#ffffff",
                     selectable=True,
                 ),
             ),
