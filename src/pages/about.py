@@ -54,6 +54,67 @@ def about_page(page: ft.Page) -> ft.View:
             ],
             )
         page.show_dialog(dialog)
+    
+
+    loading_info_container = ft.Container(
+            padding=16,
+            border=ft.Border.all(1, "#35414a"),
+            border_radius=16,
+            bgcolor="#111820",
+            on_click=lambda e: open_info_dialog(
+                page,
+                "App Loading Information",
+                "Please Note: The Backend May Take a Moment to Wake Up\n\n"
+                "The app's backend is hosted online. When it is inactive "
+                "for a while, the hosting service may put it to sleep. "
+                "The first request after this may take longer than usual "
+                "or fail.\n\n"
+                "If the app does not load, please try the following:\n\n"
+                "1. Home Screen (Weather Display)\n"
+                "- Pull down to refresh the weather.\n"
+                "- Please try refreshing at least 4 times, waiting for "
+                "each loading attempt to finish before trying again.\n\n"
+                "2. Search Page\n"
+                "- Enter the city name and press Search.\n"
+                "- If the search does not work, wait for the loading "
+                "attempt to finish and press Search again.\n"
+                "- Please try at least 3 times.\n\n"
+                "Thank you for your patience and understanding!"
+            ),
+            content=ft.Row(
+                controls=[
+                    ft.Icon(
+                        ft.Icons.REFRESH_ROUNDED,
+                        color="#8DD8E8",
+                        size=26,
+                    ),
+                    ft.Column(
+                        expand=True,
+                        spacing=5,
+                        controls=[
+                            ft.Text(
+                                "App Loading Information",
+                                color="#ffffff",
+                                weight=ft.FontWeight.BOLD,
+                            ),
+                            ft.Text(
+                                "Troubleshooting loading and search issues",
+                                color="#aaaaaa",
+                                size=12,
+                            ),
+                        ],
+                    ),
+                    ft.Icon(
+                        ft.Icons.CHEVRON_RIGHT,
+                        color="#aaaaaa",
+                    ),
+                ],
+            ),
+        )
+
+
+
+
 
     disclaimer_container = ft.Container(
         padding=16,
@@ -214,6 +275,7 @@ def about_page(page: ft.Page) -> ft.View:
                     content=ft.Column(
                         scroll=ft.ScrollMode.AUTO,
                         controls=[
+                            loading_info_container,
                             disclaimer_container,
                             privacy_container,
                             support_container,
