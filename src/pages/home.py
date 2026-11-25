@@ -66,7 +66,7 @@ def home_page(page: ft.Page,prefs,user_id) -> ft.View:
     daily_column = ft.Column(
         alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
         spacing=5,
-        scroll=ft.ScrollMode.AUTO
+        
     )
 
 
@@ -405,6 +405,7 @@ def home_page(page: ft.Page,prefs,user_id) -> ft.View:
     )
 
     body_day = ft.Container(
+            
             padding = 10,
             border_radius=10,
             bgcolor=ft.Colors.LIGHT_BLUE_600,
@@ -417,8 +418,9 @@ def home_page(page: ft.Page,prefs,user_id) -> ft.View:
 
     updated_container = lastupdate_container("--", "--")
 
-    async def search_weather(lat,lon):
-        page.show_dialog(loading_dialog)
+    async def search_weather(lat,lon, show_loading = True):
+        if show_loading:
+            page.show_dialog(loading_dialog)
         try:
             async with httpx.AsyncClient() as client:
                 response = await client.get(
@@ -524,7 +526,8 @@ def home_page(page: ft.Page,prefs,user_id) -> ft.View:
             print(e)
 
         finally:
-            page.pop_dialog()
+            if show_loading:
+                page.pop_dialog()
             page.update()
         
     
@@ -570,40 +573,68 @@ def home_page(page: ft.Page,prefs,user_id) -> ft.View:
     
     page.run_task(load_saved_location)
     
+    async def handle_refresh(e):
+        location_json = await prefs.get("default_location")
+        
+        if location_json:
+            location = json.loads(location_json)
+
+            lat = location["latitude"]
+            lon = location["longitude"]
+            
+            await search_weather(lat, lon, show_loading=False)
+        else:
+            await page.push_route("/search")
+
+
     main_layout = ft.Container(
         expand=True,
-        padding= 0,
-        margin= 0,
-        gradient= ft.LinearGradient(
-                    begin=ft.Alignment.TOP_LEFT,
-                    end = ft.Alignment.BOTTOM_RIGHT,
-                    colors=[
+        padding=0,
+        margin=0,
+        gradient=ft.LinearGradient(
+            begin=ft.Alignment.TOP_LEFT,
+            end=ft.Alignment.BOTTOM_RIGHT,
+            colors=[
                 "#6988DC",
                 ft.Colors.LIGHT_BLUE_600
-               
             ]
         ),
         content=ft.SafeArea(
             avoid_intrusions_left=False,
             avoid_intrusions_right=False,
             expand=True,
-            content=ft.Column(
-                expand = True,
-                scroll=ft.ScrollMode.AUTO,
-                on_scroll= handle_scroll,
-                controls=[
-                    top,
-                    top_body,
-                    ft.Text("3-Hour Forecast", size=20,weight=ft.FontWeight.BOLD),
-                    body_hour,
-                    ft.Text("Daily Forecast", size=20,weight=ft.FontWeight.BOLD),
-                    body_day,
-                    updated_container
-                    
-                ]
+            content=ft.RefreshIndicator(
+                expand=True,
+                on_refresh=handle_refresh,
+                color=ft.Colors.WHITE,
+                bgcolor=ft.Colors.LIGHT_BLUE_600,
+                content=ft.Column(
+                    expand=True,
+                    scroll=ft.ScrollMode.AUTO,
+                    on_scroll=handle_scroll,
+                    controls=[
+                        top,
+                        top_body,
+                        ft.Text(
+                            "3-Hour Forecast",
+                            size=20,
+                            weight=ft.FontWeight.BOLD
+                        ),
+                        body_hour,
+                        ft.Text(
+                            "Daily Forecast",
+                            size=20,
+                            weight=ft.FontWeight.BOLD
+                        ),
+                        body_day,
+                        updated_container
+                    ]
+                )
             )
         )
-    )
+        )
+
+
     return ft.View(
         bottom_appbar=bottom_bar,
         padding=0,
