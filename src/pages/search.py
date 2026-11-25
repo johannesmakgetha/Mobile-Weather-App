@@ -68,6 +68,55 @@ def search_page(page: ft.Page,prefs,user_id) -> ft.View:
         scroll=ft.ScrollMode.AUTO
     )
 
+    help_dialog = ft.AlertDialog(
+            modal=True,
+            scrollable=True,
+            title=ft.Text(
+                "App Loading Information",
+                weight=ft.FontWeight.BOLD,
+                size=20
+            ),
+            content=ft.Container(
+                width=350,
+                content=ft.Text(
+                    "Please Note: The Backend May Take a Moment to Wake Up\n\n"
+                    "The app's backend is hosted online. When it is inactive "
+                    "for a while, the hosting service may put it to sleep. "
+                    "The first request after this may take longer than usual "
+                    "or fail.\n\n"
+                    "If the app does not load, please try the following:\n\n"
+                    "1. Home Screen (Weather Display)\n"
+                    "- Pull down to refresh the weather.\n"
+                    "- Please try refreshing at least 4 times, waiting for "
+                    "each loading attempt to finish before trying again.\n\n"
+                    "2. Search Page\n"
+                    "- Enter the city name and press Search.\n"
+                    "- If the search does not work, wait for the loading "
+                    "attempt to finish and press Search again.\n"
+                    "- Please try at least 3 times.\n\n"
+                    "Thank you for your patience and understanding!",
+                    size=14,
+                ),
+            ),
+            actions=[
+                ft.TextButton(
+                    "Got it",
+                    on_click=lambda e: page.pop_dialog()
+                )
+            ],
+            actions_alignment=ft.MainAxisAlignment.END
+        )
+
+
+
+    help_button = ft.Button(
+            "Help",
+            icon=ft.Icons.HELP_OUTLINE,
+            on_click=lambda e: page.show_dialog(help_dialog)
+        )
+
+
+
     async def select_city(city_name,lat,lon,state,country):
 
 
@@ -91,6 +140,8 @@ def search_page(page: ft.Page,prefs,user_id) -> ft.View:
         error_message.value = message
         error_message.visible = True
         page.update()
+
+
 
     def searched_city_container(city_name,lat,lon,state,country):
         if not state:
@@ -238,14 +289,21 @@ def search_page(page: ft.Page,prefs,user_id) -> ft.View:
                             ft.Row(
                                 alignment=ft.MainAxisAlignment.CENTER,
                                 controls=[
-                                    ft.Container(
+                                ft.Container(
                                 content=ft.Button(
                                     content= "Search",
                                     color = ft.Colors.WHITE,
                                     bgcolor=ft.Colors.LIGHT_BLUE_400,
                                     on_click=search_name
                                 )
-                            )]
+                                
+                            ),
+                            ft.Container(
+                                content=help_button
+                                
+                            ),
+
+                            ]
                             )
                         ]
                     )
